@@ -8,7 +8,7 @@ export const generateToken = (
 ) => {
   const { JWT_SECRET, NODE_ENV } = process.env;
   if (!JWT_SECRET)
-    return res
+    return res  
       .status(500)
       .json({ status: "error", message: "Jwt secret not found" });
   const token = jwt.sign({ userId }, JWT_SECRET, {
