@@ -134,29 +134,59 @@ export async function checkIsAuthenticated(
  */
 export async function updateProfile(req: Request, res: Response): Promise<any> {
   try {
-    const { profilePicture } = req.body;
+    const { username, email } = req.body;
     const userId = req.user._id;
-    if (!profilePicture)
-      return res
-        .status(400)
-        .json({ success: false, message: "Profile picture is required" });
 
-    const profileUploadResponse = await cloudinary.uploader.upload(
-      profilePicture
-    );
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        profilePicture: profileUploadResponse.secure_url,
-      },
-      { new: true }
-    );
+    if (!username || !email) {
+      return res.status(400).json({ success: false, message: "Invalid inputs" });
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(userId, { username, email }, { new: true });
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
 
     return res.status(200).json({ success: true, user: updatedUser });
   } catch (error) {
-    console.log("ERROR UPDATE PROFILE:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+    console.error("ERROR UPDATE PROFILE:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+}
+
+/*
+ ** Update user profile picture function
+ */
+export async function updateProfilePicture(req: Request, res: Response): Promise<any> {
+  try {
+    const { profilePicture } = req.body;
+    const userId = req.user._id;
+
+    if (!profilePicture.startsWith("data:image")) {
+      return res.status(400).json({ success: false, message: "Invalid image format" });
+    }
+
+    // Estimate Base64 image size
+    const base64Size = Buffer.byteLength(profilePicture, "base64");
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+
+    if (base64Size > MAX_SIZE) {
+      return res.status(413).json({
+        success: false,
+        message: "File size too large. Please upload an image smaller than 10MB."
+      });
+    }
+
+    const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+    const updatedUser = await User.findByIdAndUpdate(userId, { profilePicture: uploadResponse.secure_url }, { new: true });
+
+    return res.status(200).json({ success: true, user: updatedUser });
+  } catch (error: any) {
+    console.error("ERROR UPLOADING PROFILE PICTURE:", error);
+    if (error.http_code === 400) {
+      return res.status(400).json({ success: false, message: "Cloudinary upload failed. Please try again." });
+    }
+
+    return res.status(500).json({ success: false, message: "Internal server error" });
   }
 }

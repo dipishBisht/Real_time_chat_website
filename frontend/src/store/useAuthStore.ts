@@ -13,7 +13,7 @@ export const useAuthStore = create<IUseAuthStore>((set) => ({
     checkAuth: async () => {
         try {
             const response = await axiosInstance.get("/auth/check");
-            set({ user: response.data });
+            set({ user: response.data.user });
         } catch (error) {
             console.log("ERROR IN CHECK AUTH :", error);
 
@@ -57,6 +57,32 @@ export const useAuthStore = create<IUseAuthStore>((set) => ({
             toast.success("Logged out successfully");
         } catch (error: any) {
             toast.error(error.response.data.message);
+        }
+    },
+
+    updateProfile: async (data) => {
+        set({ isUserUpdatingProfile: true });
+        try {
+            const response = await axiosInstance.put("/auth/update-profile", data);
+            set({ user: response.data.user });
+            toast.success("Profile updated successfully");
+        } catch (error: any) {
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isUserUpdatingProfile: false });
+        }
+    },
+
+    updateProfilePicture: async (data) => {
+        set({ isUserUpdatingProfile: true });
+        try {
+            const response = await axiosInstance.put("/auth/update-profile-picture", data);
+            set({ user: response.data.user });
+            toast.success("Picture updated successfully");
+        } catch (error: any) {
+            toast.error(error.response.data.message);
+        } finally {
+            set({ isUserUpdatingProfile: false });
         }
     }
 }))

@@ -1,7 +1,10 @@
 interface User {
-  _id: string;
-  username: string;
+  createdAt: string;
   email: string;
+  profilePicture: string;
+  updatedAt: string;
+  username: string;
+  _id: string;
 }
 
 export interface IUseAuthStore {
@@ -15,4 +18,6 @@ export interface IUseAuthStore {
   signUp: (data: any) => void;
   login: (data: any) => void;
   logout: () => void;
+  updateProfile: (data: any) => void;
+  updateProfilePicture: (data: any) => void;
 }

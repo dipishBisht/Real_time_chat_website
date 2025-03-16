@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { logIn, logOut, signUp, checkIsAuthenticated, updateProfile } from "../controllers";
+import { logIn, logOut, signUp, checkIsAuthenticated, updateProfile, updateProfilePicture } from "../controllers";
 import { protectedRoute } from "../middleware";
 
 const router = Router();
@@ -22,11 +22,16 @@ router.post("/logout", logOut);
 /*
  ** Check user is authenticated or not
  */
-router.get("/check",protectedRoute, checkIsAuthenticated)
+router.get("/check", protectedRoute, checkIsAuthenticated)
+
+/*
+ ** Update user profile
+ */
+router.put("/update-profile", protectedRoute, updateProfile);
 
 /*
  ** Update user profile picture
  */
-router.put("/update-profile", protectedRoute, updateProfile);
+router.put("/update-profile-picture", protectedRoute, updateProfilePicture);
 
 export default router;
