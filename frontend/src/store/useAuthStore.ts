@@ -4,7 +4,7 @@ import { IUseAuthStore } from "./types";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
-const BASE_URL = "http://localhost:8080"
+const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8080" : "/";
 
 export const useAuthStore = create<IUseAuthStore>((set, get) => ({
     user: null,
