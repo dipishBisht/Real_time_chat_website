@@ -22,10 +22,10 @@ export async function getMessages(req: Request, res: Response): Promise<any> {
 
         const messages = await Message.find({
             $or: [
-                { senderId: recieverId },
-                { recieverId: senderId }
+                { senderId, recieverId: recieverId },
+                { senderId: recieverId, recieverId: senderId }
             ]
-        });
+        }).sort({ createdAt: 1 });
 
         return res.status(200).json({ success: true, messages });
     } catch (error) {

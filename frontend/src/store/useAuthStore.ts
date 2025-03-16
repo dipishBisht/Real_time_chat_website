@@ -9,6 +9,7 @@ export const useAuthStore = create<IUseAuthStore>((set) => ({
     isUserLoginIn: false,
     isUserUpdatingProfile: false,
     checkingAuthenticated: true,
+    onlineUsers:[],
 
     checkAuth: async () => {
         try {

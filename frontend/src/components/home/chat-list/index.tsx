@@ -1,6 +1,19 @@
+import ChatListSkeleton from "@/components/skeletons/chat-list-skeleton";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useChatStore } from "@/store/useChatStore";
 import { Search } from "lucide-react";
+import { useEffect } from "react";
 
 export default function ChatList() {
+
+    const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
+    const { onlineUsers } = useAuthStore();
+
+    useEffect(() => {
+        getUsers();
+    }, [getUsers]);
+
+
     return (
         <div className="w-96 bg-white border-r">
             <div className="p-6">
@@ -15,34 +28,36 @@ export default function ChatList() {
                 </div>
             </div>
             <div className="overflow-y-auto h-[calc(100vh-9rem)]">
-                {Array.from({ length: 10 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="px-6 py-4 hover:bg-gray-50 cursor-pointer transition-colors"
-                    >
-                        <div className="flex items-center space-x-4">
-                            <div className="relative">
-                                <div className="w-14 h-14 bg-gradient-to-br from-purple-200 to-purple-300 rounded-2xl flex-shrink-0 flex items-center justify-center">
-                                    <span className="text-lg font-semibold text-purple-700">
-                                        {String.fromCharCode(65 + i)}
-                                    </span>
+                {isUsersLoading ? (
+                    <ChatListSkeleton />
+                ) : (
+                    users.map((user: any) => (
+                        <div
+                            key={user._id}
+                            onClick={() => setSelectedUser(user)}
+                            className={`px-6 py-4 hover:bg-gray-50 cursor-pointer transition-colors ${selectedUser?._id === user._id ? 'bg-purple-50' : ''
+                                }`}
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="relative">
+                                    <img src={user.profilePicture || "/images/default-user.png"} alt={user.username} className="size-12 object-cover rounded-full" />
+                                    {onlineUsers.includes(user._id) && <span className="absolute bg-green-600 bottom-0 right-0 size-3 ring-2 rounded-full ring-zinc-900" />}
                                 </div>
-                                <div className={`absolute -bottom-1 -right-1 w-4 h-4 rounded-full border-2 border-white ${i % 2 === 0 ? 'bg-green-500' : 'bg-gray-300'}`} />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <div className="flex justify-between items-start mb-1">
-                                    <h4 className="text-sm font-semibold text-gray-900 truncate">
-                                        User {String.fromCharCode(65 + i)}
-                                    </h4>
-                                    <span className="text-xs text-gray-400">{i + 1}m ago</span>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex justify-between items-start mb-1">
+                                        <h4 className="text-sm font-semibold text-gray-900 truncate">
+                                            {user.username}
+                                        </h4>
+                                        <span className="text-xs text-gray-400">{1}m ago</span>
+                                    </div>
+                                    <p className="text-sm text-gray-500 truncate">
+                                        Latest message preview here...
+                                    </p>
                                 </div>
-                                <p className="text-sm text-gray-500 truncate">
-                                    Latest message preview here...
-                                </p>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         </div>
     )
