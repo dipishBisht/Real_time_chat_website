@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export async function connectToDB() {
-  const url = process.env.MONGO_URI_LOCAL;
+  const url = process.env.MONGO_URI;
   if (!url) return "No URL found";
   try {
     await mongoose.connect(url);
