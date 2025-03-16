@@ -1,6 +1,4 @@
 import { Navigate, Route, Routes } from "react-router-dom"
-import Footer from "./components/footer"
-import Navbar from "./components/navbar"
 import Home from "./pages/home/page"
 import Signup from "./pages/signup/page"
 import Login from "./pages/login/page"
@@ -24,14 +22,12 @@ function App() {
       </div>)
   return (
     <div className="h-screen w-full overflow-hidden">
-      {/* <Navbar /> */}
       <Routes>
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" replace />} />
         <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" replace />} />
         <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
         <Route path="/profile" element={user ? <Profile /> : <Navigate to="/login" replace />} />
       </Routes>
-      {/* <Footer /> */}
       <Toaster />
     </div>
   )

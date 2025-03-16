@@ -14,6 +14,7 @@ export interface IUseAuthStore {
   isUserUpdatingProfile: boolean;
   checkingAuthenticated: boolean;
   onlineUsers: any[];
+  socket: any;
 
   checkAuth: () => void;
   signUp: (data: any) => void;
@@ -21,6 +22,8 @@ export interface IUseAuthStore {
   logout: () => void;
   updateProfile: (data: any) => void;
   updateProfilePicture: (data: any) => void;
+  connectSocket: () => void;
+  disconnectSocket: () => void;
 }
 
 export interface IUserChatStore {
@@ -34,4 +37,6 @@ export interface IUserChatStore {
   getUsers: () => void;
   getMessages: (id: string) => void;
   sendMessage: (message: any) => void
+  subscribeToMessage: () => void;
+  unsubscribeFromMessage: () => void;
 }

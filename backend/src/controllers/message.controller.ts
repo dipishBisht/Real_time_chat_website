@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 import Message from "../models/message.model";
 import cloudinary from "../lib/utils/cloudinary";
+import { getRecieverSocketId, io } from "../lib/utils/socket";
 
 export async function getUsers(req: Request, res: Response): Promise<any> {
     try {
@@ -55,7 +56,9 @@ export async function sendMessage(req: Request, res: Response): Promise<any> {
 
         await newMessage.save();
 
-        // socket.io
+        const recieverSocketId = getRecieverSocketId(recieverId);
+        if (recieverSocketId)
+            io.to(recieverSocketId).emit("newMessage", newMessage);
 
         return res.status(200).json({ success: true, message: newMessage })
     } catch (error) {

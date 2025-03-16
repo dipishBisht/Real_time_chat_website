@@ -17,7 +17,7 @@ export default function ChatHeader() {
                 <div className="flex items-center space-x-4">
                     <div className="relative flex items-center gap-2">
                         <ArrowLeft className='cursor-pointer' onClick={() => setSelectedUser(null)} />
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center">
                             <img src={selectedUser?.profilePicture || "/images/default-user.png"} className='w-full h-full object-cover' alt="profile-image" />
                         </div>
                         {onlineUsers.includes(selectedUser._id) && <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />}

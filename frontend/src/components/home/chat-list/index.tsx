@@ -41,7 +41,7 @@ export default function ChatList() {
                             <div className="flex items-center space-x-4">
                                 <div className="relative">
                                     <img src={user.profilePicture || "/images/default-user.png"} alt={user.username} className="size-12 object-cover rounded-full" />
-                                    {onlineUsers.includes(user._id) && <span className="absolute bg-green-600 bottom-0 right-0 size-3 ring-2 rounded-full ring-zinc-900" />}
+                                    {onlineUsers.includes(user._id) && <span className="absolute bg-green-600 bottom-0 right-0 size-3 rounded-full" />}
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex justify-between items-start mb-1">

@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 import { connectToDB } from "./lib/db";
 import coookieParse from "cookie-parser";
 import cors from "cors";
+import { app, server } from "./lib/utils/socket";
 
 dotenv.config();
 
-const app = express();
 const PORT = process.env.PORT;
 connectToDB();
 
@@ -20,11 +20,8 @@ app.use(cors({
   credentials: true
 }));
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 
-app.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));

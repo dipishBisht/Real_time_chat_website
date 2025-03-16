@@ -38,7 +38,7 @@ export async function signUp(req: Request, res: Response): Promise<any> {
         .status(400)
         .json({ success: false, message: "Invalid user data" });
 
-    const token = generateToken(newUser._id, res);
+    generateToken(newUser._id, res);
     await newUser.save();
 
     return res.status(201).json({
