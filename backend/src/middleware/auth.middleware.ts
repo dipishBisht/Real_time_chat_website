@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/user.model";
-import { DecodedToken } from "../lib/types";
+import User from "../models/user.model.js";
+import { DecodedToken } from "../lib/types/auth.types.js";
 
 
 

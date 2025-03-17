@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import User from "../models/user.model";
-import Message from "../models/message.model";
-import cloudinary from "../lib/utils/cloudinary";
-import { getRecieverSocketId, io } from "../lib/utils/socket";
+import User from "../models/user.model.js";
+import Message from "../models/message.model.js";
+import cloudinary from "../lib/utils/cloudinary.js";
+import { getRecieverSocketId, io } from "../lib/utils/socket.js";
 
 export async function getUsers(req: Request, res: Response): Promise<any> {
     try {

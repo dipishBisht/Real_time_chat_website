@@ -1,17 +1,19 @@
 import express, { Request, Response } from "express";
-import authRouter from "./routes/auth.route";
-import messageRouter from "./routes/message.route";
+import authRouter from "./routes/auth.route.js";
+import messageRouter from "./routes/message.route.js";
 import dotenv from "dotenv";
-import { connectToDB } from "./lib/db";
+import { connectToDB } from "./lib/db/db.js";
 import coookieParse from "cookie-parser";
 import cors from "cors";
-import { app, server } from "./lib/utils/socket";
+import { app, server } from "./lib/utils/socket.js";
 import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
 const PORT = process.env.PORT;
-const __dirname = path.resolve();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 connectToDB();
 
 app.use(express.json({ limit: "10mb" }));
