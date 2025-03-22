@@ -40,3 +40,10 @@ export interface IUserChatStore {
   subscribeToMessage: () => void;
   unsubscribeFromMessage: () => void;
 }
+
+export interface Message {
+  senderId: string;
+  recieverId: string;
+  text: string;
+  image: string;
+}

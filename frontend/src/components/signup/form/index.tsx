@@ -22,7 +22,7 @@ export default function SignupForm() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
+        <div className="min-h-screen w-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-3xl shadow-xl w-full max-w-md p-8 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-purple-500 to-blue-500" />
 

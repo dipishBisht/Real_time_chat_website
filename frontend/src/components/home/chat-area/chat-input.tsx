@@ -8,7 +8,7 @@ export default function ChatInput() {
 
     const { isMessagesLoading, sendMessage } = useChatStore();
     const [text, setText] = useState("");
-    const [image, setImage] = useState<any>(null);
+    const [image, setImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +20,7 @@ export default function ChatInput() {
 
         const reader = new FileReader();
         reader.onloadend = () => {
-            setImage(reader.result);
+            setImage(reader.result as string);
         }
 
         reader.readAsDataURL(file);

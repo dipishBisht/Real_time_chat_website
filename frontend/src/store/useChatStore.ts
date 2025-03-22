@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { IUserChatStore } from "./types";
+import { IUserChatStore, Message } from "./types";
 import { axiosInstance } from "@/lib/axios";
 import toast from "react-hot-toast";
 import { useAuthStore } from "./useAuthStore";
@@ -65,7 +65,7 @@ export const useChatStore = create<IUserChatStore>((set, get) => ({
 
         const socket = useAuthStore.getState().socket;
 
-        socket.on("newMessage", (message: any) => {
+        socket.on("newMessage", (message: Message) => {
             if (message.senderId !== selectedUser._id)
                 return;
 

@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { Camera, Loader2, Mail, User } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-export default function MainContent() {
+export default function ProfileContent() {
 
     const { user, isUserUpdatingProfile, updateProfile, updateProfilePicture } = useAuthStore();
     const [editDetails, setEditDetails] = useState(false);
@@ -66,7 +66,7 @@ export default function MainContent() {
 
 
     return (
-        <div className="col-span-9">
+        <div className="w-full">
             <div className="bg-white rounded-2xl shadow-sm p-8">
                 {/* Profile Image Section */}
                 <div className="flex items-center space-x-6 mb-8">
