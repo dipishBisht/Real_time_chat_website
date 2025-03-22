@@ -29,7 +29,7 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "development") {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
   app.get("*", (req: Request, res: Response) => {
