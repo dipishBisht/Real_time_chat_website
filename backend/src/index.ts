@@ -18,22 +18,23 @@ connectToDB();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(coookieParse());
-app.use(cors({
-  origin: "http://localhost:5173",
-  methods: ["GET", "POST", "PUT"],
-  credentials: true
-}));
-
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT"],
+    credentials: true,
+  })
+);
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
 
-// if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
   app.get("*", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"))
+    res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"));
   });
-// }
+}
 
 server.listen(PORT, () => console.log(`Server is running on PORT: ${PORT}`));
