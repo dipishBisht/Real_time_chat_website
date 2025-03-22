@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useLocation } from "react-router-dom"
 import Home from "./pages/home/page"
 import Signup from "./pages/signup/page"
 import Login from "./pages/login/page"
@@ -12,9 +12,11 @@ import Setting from "./pages/setting/page"
 import Sidebar from "./components/home/sidebar"
 import Notifications from "./pages/setting/notifications/page"
 import Security from "./pages/setting/security/page"
+import Dashboard from "./pages/admin/dashboard/page"
 
 function App() {
-    const { user, checkAuth, checkingAuthenticated } = useAuthStore();
+  const { user, checkAuth, checkingAuthenticated } = useAuthStore();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     checkAuth()
@@ -27,7 +29,7 @@ function App() {
       </div>)
   return (
     <div className="h-screen w-full flex overflow-hidden">
-      <Sidebar />
+      {!pathname.includes("dashboard") && <Sidebar />}
       <Routes>
         <Route path="/" element={user ? <Home /> : <Navigate to="/login" replace />} />
         <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
@@ -39,6 +41,8 @@ function App() {
           <Route path="notifications" element={<Notifications />} />
           <Route path="security" element={<Security />} />
         </Route>
+
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
       <Toaster />
     </div>
