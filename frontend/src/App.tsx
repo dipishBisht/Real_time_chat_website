@@ -18,6 +18,7 @@ function App() {
   const { user, checkAuth, checkingAuthenticated } = useAuthStore();
   const { pathname } = useLocation();
 
+
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
@@ -27,23 +28,47 @@ function App() {
       <div className="h-screen w-full grid place-items-center">
         <Loader className="size-10 animate-spin" />
       </div>)
+
+  const isAdmin = user?.role === "admin";
+  const isUser = user?.role === "user";
+
   return (
     <div className="h-screen w-full flex overflow-hidden">
-      {!pathname.includes("dashboard") && <Sidebar />}
+      {!pathname.includes("dashboard") || !pathname.includes("signup") || !pathname.includes("login") && !isAdmin && <Sidebar />}
+
       <Routes>
-        <Route path="/" element={user ? <Home /> : <Navigate to="/login" replace />} />
-        <Route path="/community" element={user ? <Community /> : <Navigate to="/login" replace />} />
-        <Route path="/signup" element={!user ? <Signup /> : <Navigate to="/" replace />} />
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
+        {/* Public Routes */}
+        {!user && (
+          <>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        )}
 
-        <Route path="/setting" element={user ? <Setting /> : <Navigate to="/login" replace />}>
-          <Route path="profile" element={<Profile />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="security" element={<Security />} />
-        </Route>
+        {/* User Routes */}
+        {isUser && (
+          <>
+            <Route path="/" element={<Home />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/setting" element={<Setting />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="notifications" element={<Notifications />} />
+              <Route path="security" element={<Security />} />
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </>
+        )}
 
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* Admin Routes */}
+        {isAdmin && (
+          <>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </>
+        )}
       </Routes>
+
       <Toaster />
     </div>
   )

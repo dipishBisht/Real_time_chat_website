@@ -5,33 +5,33 @@ import { protectedRoute } from "../middleware/auth.middleware.js";
 const router = Router();
 
 /*
- ** Signup user
- */
+** Signup user
+*/
 router.post("/signup", signUp);
 
 /*
- ** Login user
- */
+** Login user
+*/
 router.post("/login", logIn);
 
 /*
- ** Logout user
- */
+** Logout user
+*/
 router.post("/logout", logOut);
 
 /*
- ** Check user is authenticated or not
- */
+** Check user is authenticated or not
+*/
 router.get("/check", protectedRoute, checkIsAuthenticated)
 
 /*
- ** Update user profile
- */
+** Update user profile
+*/
 router.put("/update-profile", protectedRoute, updateProfile);
 
 /*
- ** Update user profile picture
- */
+** Update user profile picture
+*/
 router.put("/update-profile-picture", protectedRoute, updateProfilePicture);
 
 export default router;

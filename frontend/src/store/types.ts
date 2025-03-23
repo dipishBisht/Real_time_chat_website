@@ -1,10 +1,11 @@
-interface User {
+export interface User {
   createdAt: string;
   email: string;
   profilePicture: string;
   updatedAt: string;
   username: string;
   _id: string;
+  role: "user" | "admin";
 }
 
 export interface IUseAuthStore {
@@ -42,6 +43,7 @@ export interface IUserChatStore {
 }
 
 export interface Message {
+  _id: string;
   senderId: string;
   recieverId: string;
   text: string;

@@ -16,6 +16,16 @@ export async function getUsers(req: Request, res: Response): Promise<any> {
     }
 }
 
+export async function getAllMessages(req: Request, res: Response): Promise<any> {
+    try {
+        const messages = await Message.find({});
+        return res.status(200).json({ success: false, messages });
+    } catch (error) {
+        console.log("GET ALL MESSAGES ERROR :", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}
+
 export async function getMessages(req: Request, res: Response): Promise<any> {
     try {
         const { id: recieverId } = req.params;
@@ -66,3 +76,15 @@ export async function sendMessage(req: Request, res: Response): Promise<any> {
         return res.status(500).json({ success: false, message: "Internal Server Error" });
     }
 } 
+
+export async function deleteMessageById(req: Request, res: Response): Promise<any> {
+    const { id } = req.params;
+
+    try {
+        const response = await Message.findByIdAndDelete(id);
+        return res.status(200).json({ success: true, message: "Message deleted successfully" });
+    } catch (error) {
+        console.log("DELETE MESSAGE ERROR :", error);
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+}

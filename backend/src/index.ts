@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import authRouter from "./routes/auth.route.js";
 import messageRouter from "./routes/message.route.js";
+import userRouter from "./routes/user.route.js";
 import dotenv from "dotenv";
 import { connectToDB } from "./lib/db/db.js";
 import coookieParse from "cookie-parser";
@@ -21,13 +22,14 @@ app.use(coookieParse());
 app.use(
   cors({
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 
 app.use("/api/auth", authRouter);
 app.use("/api/messages", messageRouter);
+app.use("/api/user", userRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../frontend/dist")));
