@@ -2,7 +2,7 @@ import ChatListSkeleton from "@/components/skeletons/chat-list-skeleton";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useChatStore } from "@/store/useChatStore";
 import { Search } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function ChatList() {
 
@@ -13,6 +13,13 @@ export default function ChatList() {
         getUsers();
     }, [getUsers]);
 
+    const isUserOnline = (userId: string) => onlineUsers.includes(userId);
+
+    const sortedUsers = useMemo(() => {
+        return users.slice().sort((a, b) => {
+            return Number(isUserOnline(b._id)) - Number(isUserOnline(a._id));
+        });
+    }, [users, onlineUsers]);
 
     return (
         <div className="w-96 bg-white border-r">
@@ -31,7 +38,7 @@ export default function ChatList() {
                 {isUsersLoading ? (
                     <ChatListSkeleton />
                 ) : (
-                    users.map((user: any) => (
+                    sortedUsers.map((user: any) => (
                         <div
                             key={user._id}
                             onClick={() => setSelectedUser(user)}

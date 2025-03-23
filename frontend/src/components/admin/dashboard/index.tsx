@@ -17,7 +17,6 @@ import {
     MessageSquare,
     FileText,
     Key,
-    Plus,
     Filter,
     Edit,
     Trash2,
@@ -28,6 +27,7 @@ import { axiosInstance } from "@/lib/axios";
 import { Message, User } from "@/store/types";
 import toast from "react-hot-toast";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export function AdminDashboard() {
     const [verifyUser, setVerifyUser] = useState("");
@@ -38,6 +38,8 @@ export function AdminDashboard() {
     const [user, setUser] = useState<User | null>(null);
     const [allMessages, setAllMessages] = useState<Message[]>([]);
     const [allUsers, setAllUsers] = useState<User[]>([]);
+
+    const { logout } = useAuthStore()
 
     useEffect(() => {
         getUsers();
@@ -186,10 +188,7 @@ export function AdminDashboard() {
                     <p className="text-gray-600">Manage your chat application settings and users</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                    <Button>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add New Admin
-                    </Button>
+                    <Button onClick={logout}>Logout</Button>
                 </div>
             </div>
 
@@ -437,11 +436,10 @@ export function AdminDashboard() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <div className="flex items-center space-x-2">
-                                                                <Button variant="ghost" size="icon" className="text-red-600">
+                                                                <Button variant="ghost" size="icon" className="text-red-600"
+                                                                    onClick={() => deleteUser(user._id)}>
                                                                     <Trash2
-                                                                        className="w-4 h-4"
-                                                                        onClick={() => deleteUser(user._id)}
-                                                                    />
+                                                                        className="w-4 h-4" />
                                                                 </Button>
                                                             </div>
                                                         </TableCell>

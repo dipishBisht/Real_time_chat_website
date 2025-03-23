@@ -15,9 +15,6 @@ export default function SignupForm() {
     const { signUp, isUserSigningUp } = useAuthStore();
 
     const handleSubmit = () => {
-        // Validate
-        // const success = validate()
-        // if (success)
         signUp(formData);
     }
 

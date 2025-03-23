@@ -32,7 +32,7 @@ export const useAuthStore = create<IUseAuthStore>((set, get) => ({
         set({ isUserSigningUp: true });
         try {
             const response = await axiosInstance.post("/auth/signup", data);
-            set({ user: response.data })
+            set({ user: response.data.user })
             toast.success("Account created successfully");
             get().connectSocket();
         } catch (error: any) {
@@ -47,7 +47,8 @@ export const useAuthStore = create<IUseAuthStore>((set, get) => ({
         set({ isUserLoginIn: true })
         try {
             const response = await axiosInstance.post("/auth/login", data);
-            set({ user: response.data });
+            
+            set({ user: response.data.user });
             toast.success("Logged in successfully");
             get().connectSocket();
         } catch (error: any) {

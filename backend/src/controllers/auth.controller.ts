@@ -31,6 +31,7 @@ export async function signUp(req: Request, res: Response): Promise<any> {
       username,
       email,
       password: hashedPassword,
+      role: "user"
     });
 
     if (!newUser)
@@ -48,6 +49,7 @@ export async function signUp(req: Request, res: Response): Promise<any> {
         username: newUser.username,
         email: newUser.email,
         profilePicture: newUser.profilePicture,
+        role: newUser.role
       },
     });
   } catch (error) {
@@ -88,12 +90,13 @@ export async function logIn(req: Request, res: Response): Promise<any> {
         username: existingUser?.username,
         email: existingUser?.email,
         profilePicture: existingUser?.profilePicture,
+        role: existingUser.role,
         token,
       },
     });
   } catch (error) {
     console.log("LOGIN ERROR:", error);
-    return res.status(500).json({ success: false, error });
+    return res.status(500).json({ success: false, message: error });
   }
 }
 
