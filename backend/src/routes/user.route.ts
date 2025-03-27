@@ -1,6 +1,4 @@
-import bcrypt from "bcryptjs";
-import User from "../models/user.model.js";
-import { Request, Response, Router } from "express";
+import { Router } from "express";
 import { protectedRoute } from "../middleware/auth.middleware.js";
 import { createUser, deleteUserById, getAllUsers, getUserById } from "../controllers/user.controller.js";
 
